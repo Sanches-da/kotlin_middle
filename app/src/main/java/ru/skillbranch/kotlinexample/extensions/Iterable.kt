@@ -1,7 +1,7 @@
 package ru.skillbranch.kotlinexample.extensions
 
-fun <T> List<T>.dropLastUntil(predicate: (T) -> Boolean): ArrayList<T>{
+fun <T> Iterable<T>.dropLastUntil(predicate: (T) -> Boolean): Iterable<T>{
     val res = ArrayList<T>()
-    res.addAll(this.dropLastWhile { !predicate(it) }.dropLastWhile(predicate))
-    return res
+    res.addAll(this.reversed().dropWhile{!predicate(it)}.dropWhile(predicate).reversed())
+    return res.asIterable()
 }
