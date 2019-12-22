@@ -20,7 +20,7 @@ object UserHolder {
         email: String,
         password: String
     ): User = when {
-        map[email.fixLogin()]!=null -> throw IllegalArgumentException("User already exists")
+        map[email.fixLogin()]!=null -> throw IllegalArgumentException("A user with this email already exists")
         !validateEmail(email) -> throw IllegalArgumentException("Email is not valid")
         password.isBlank() -> throw IllegalArgumentException("Password must not be blank")
         else -> User.makeUser(fullName, email = email, password = password)
@@ -44,7 +44,7 @@ object UserHolder {
         phone: String
     ): User =
         when {
-            map[phone.fixLogin()] != null -> throw IllegalArgumentException("User already exists")
+            map[phone.fixLogin()] != null -> throw IllegalArgumentException("A user with this phone already exists")
             !validatePhone(phone) -> throw IllegalArgumentException("Phone is not valid")
             else -> User.makeUser(fullName, phone=phone)
                 .also { user -> map[phone.fixLogin()] = user }
@@ -55,7 +55,7 @@ object UserHolder {
         map[phone.fixLogin()]?.generateAccessCodeAndSend()
     }
 
-    fun importUsers(usersList: ArrayList<String>):List <User>{
+    fun importUsers(usersList: List<String>):List <User>{
         usersList.forEach {
             val (fullName, email, pass_salt, phone) = it.split(";")
             val mEmail:String? = if(email.isBlank()) null else email
