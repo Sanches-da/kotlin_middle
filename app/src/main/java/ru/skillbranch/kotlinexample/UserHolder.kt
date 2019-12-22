@@ -55,8 +55,8 @@ object UserHolder {
         map[phone.fixLogin()]?.generateAccessCodeAndSend()
     }
 
-    fun importUsers(usersList: List<String>):List <User>{
-        usersList.forEach {
+    fun importUsers(usersList: List<String>):List <User> =
+        usersList.map {
             val (fullName, email, pass_salt, phone) = it.split(";")
             val mEmail:String? = if(email.isBlank()) null else email
             val mPhone:String? = if(phone.isBlank()) null else phone
@@ -69,6 +69,4 @@ object UserHolder {
             }
 
         }
-        return listOf<User>().plus(map.values)
-    }
 }
