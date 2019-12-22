@@ -60,8 +60,9 @@ object UserHolder {
             val (fullName, email, pass_salt, phone) = it.split(";")
             val mEmail:String? = if(email.isBlank()) null else email
             val mPhone:String? = if(phone.isBlank()) null else phone
+            val mPassSalt = if(pass_salt.isBlank()) ":" else pass_salt
             if (mPhone!=null || mEmail!=null) {
-                User.makeUser(fullName.trim(), email = mEmail, phone = mPhone, saltPass = pass_salt)
+                User.makeUser(fullName.trim(), email = mEmail, phone = mPhone, saltPass = mPassSalt)
                     .also { user -> map[(mPhone ?: mEmail)!!.fixLogin()] = user }
             }else{
                 throw IllegalArgumentException("Email or phone must be filled")
