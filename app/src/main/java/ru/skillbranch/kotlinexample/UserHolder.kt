@@ -45,7 +45,7 @@ object UserHolder {
     ): User =
         when {
             map[phone.fixLogin()] != null -> throw IllegalArgumentException("A user with this phone already exists")
-            !validatePhone(phone) -> throw IllegalArgumentException("Phone is not valid")
+            !validatePhone(phone) -> throw IllegalArgumentException("Enter a valid phone number starting with a + and containing 11 digits")
             else -> User.makeUser(fullName, phone=phone)
                 .also { user -> map[phone.fixLogin()] = user }
         }
